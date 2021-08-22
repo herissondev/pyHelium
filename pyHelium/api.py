@@ -1,5 +1,5 @@
 import requests
-from hotspot import Hotspot
+from pyHelium.hotspot import Hotspot
 
 class Api():
 
