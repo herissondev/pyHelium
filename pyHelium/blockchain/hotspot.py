@@ -1,4 +1,19 @@
-import requests
+from ..api import Api
+
+
+def initiate_hotspot_from_address(address):
+
+        print(address)
+        data = Api().get_hotpost_data_from_address(address)
+        return Hotspot(data)
+
+def initiate_hotspot_from_name(name):
+        data = Api.get_hotpost_data_from_name(name)
+        return Hotspot(data)
+
+def initiate_hotspot_from_data(data):
+        return Hotspot(data)
+
 
 class Hotspot():
 
@@ -25,24 +40,21 @@ class Hotspot():
                 self.block_added = data['block_added']
 
 
+
         def get_witnesses(self):
-
-                '''Retrieves the list of witnesses for a given hotspot over about the last 5 days of blocks.'''
-
-                self.witnesses = requests.get(f'https://api.helium.io/v1/hotspots/{self.address}/witnesses').json()['data']
+                self.witnesses = Api().get_hotspot_witnesses(self.address)
                 return self.witnesses
 
         def get_witnessed(self):
+                self.witnessed = Api().get_hotspot_witnessed(self.address)
+                return  self.witnessed
 
-                '''Retrieves the list of hotspots the given hotspot witnessed over the last 5 days.'''
+        def get_activity(self):
+                self.activity = Api().get_hotspot_activity(self.address)
+                return  self.activity
 
-                self.witnessed = requests.get(f'https://api.helium.io/v1/hotspots/{self.address}/witnessed').json()['data']
-                return self.witnessed
-
-        def get_hotspot_activity(self):
-
-                '''Lists all blockchain transactions that the given hotspot was involved in.'''
-
-                self.activity = requests.get(f'https://api.helium.io/v1/hotspots/{self.address}/activity').json()['data']
-
-                return self.activity
+        def get_rewards(self, max_time, min_time, cursor=""):
+                data = Api().get_hotspot_rewards(self.address, max_time, min_time, cursor)["data"]
+                self.rewards = data["data"]
+                self.rewards_cursor = data["cursor"]
+                return self.rewards, self.rewards_cursor
