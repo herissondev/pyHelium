@@ -8,9 +8,10 @@ setup(
    packages=['pyHelium'],
 
    url='http://pypi.python.org/pypi/PackageName/',
-   license='LICENSE.txt',
+   license='Mit License',
    description="A simple python package to access Helium network's APi",
    long_description=open('README.md').read(),
+   long_description_content_type = "text/markdown",
    install_requires=[
        "requests",
    ],
