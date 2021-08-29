@@ -15,12 +15,12 @@ import pyHelium
 #this will return a Hotspot object
 myHotspot = pyHelium.initiate_hotspot_from_address("11CDbFUj3CkT2SCnFn7372f9EeNz88hb9deQaomV6xKyDFq6z1h")
 
-#we can then print informations about our hotspot:
+#we can then print informations about your hotspot:
 print(myHotspot.name)
 print(myHotspot.reward_scale)
 print(myHotspot.status)
 
-#it is also possible to fetch more data about our hotspot:
+#it is also possible to fetch more data about your hotspot:
 myHotspot.get_activity()
 #and then print it
 print(myHotspot.activity)
