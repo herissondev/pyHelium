@@ -7,8 +7,9 @@ _PyHelium is a simple api wrapper to access Helium network's api._
 
 **Important**: depending on your system, make sure to use `pip3` and `python3` instead.
 
-###How to use ?
-#####Simple example:
+### How to use ?
+
+##### Simple example:
 ```python
 import pyHelium
 
