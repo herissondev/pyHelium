@@ -53,7 +53,7 @@ class Api(object):
                 '''Returns rewards for a given blockchain per reward block the blockchain is in,
                 for a given timeframe. Timestamps are given in ISO 8601 format ( YYYY-MM-DD = 2020-02-28 ).
                 The block that contains the max_time timestamp is excluded from the result.'''
-                url = f'https://api.helium.io/v1/hotspots/{address}/rewards?max_time={max_time}&min_time={min_time}&cursor={cursor}'
+                url = f'https://api.helium.io/v1/hotspots/{address}/rewards/sum?max_time={max_time}&min_time={min_time}&cursor={cursor}'
 
                 return requests.get(url).json()
 
