@@ -2,12 +2,12 @@ from setuptools import setup
 
 setup(
    name='PyHelium',
-   version='0.1.0',
+   version='0.1.2',
    author='Aimé Risson',
    author_email='aime.risson.1@gmail.com',
-   packages=['pyHelium'],
+   packages=['pyHelium', 'pyHelium.blockchain'],
 
-   url='http://pypi.python.org/pypi/PackageName/',
+   url='http://pypi.python.org/pypi/PyHelium/',
    license='Mit License',
    description="A simple python package to access Helium network's APi",
    long_description=open('README.md').read(),
