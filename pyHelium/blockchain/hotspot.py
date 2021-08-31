@@ -55,6 +55,6 @@ class Hotspot():
 
         def get_rewards(self, max_time, min_time, cursor=""):
                 data = Api().get_hotspot_rewards(self.address, max_time, min_time, cursor)["data"]
-                self.rewards = data["data"]
-                self.rewards_cursor = data["cursor"]
+                self.rewards = data
+                #self.rewards_cursor = data["cursor"]
                 return self.rewards, self.rewards_cursor

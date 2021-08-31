@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='PyHelium',
-   version='0.1.2',
+   version='0.1.2.2',
    author='Aimé Risson',
    author_email='aime.risson.1@gmail.com',
    packages=['pyHelium', 'pyHelium.blockchain'],
