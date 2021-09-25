@@ -1,46 +1,97 @@
 import requests
+from errors import *
 
 class Api(object):
 
 
         #HOTSPOTS
         def get_hotpost_data_from_address(self,address):
-                '''Fetch a blockchain with a given address.'''
-                #print(f'adresse: {address}')
+                '''Fetch a hotspot data from a given hotspost address.'''
 
-                data = requests.get(f'https://api.helium.io/v1/hotspots/{address}').json()["data"]
+                assert type(address) == str, "Address musst be given in string format"
 
-                return data
+                try:
+
+                    response = requests.get(f'https://api.helium.io/v1/hotspots/{address}')
+
+                    if response.ok:
+                        return response
+
+                    else:
+                        raise ErrorFetchingHotspotData(response)
+
+
+                except ErrorFetchingHotspotData as error:
+                    print(f"Error while loading hotspot data, status code: {error.response.status_code}\n {error.response.json()}")
+                    return response
 
         def get_hotpost_data_from_name(self,name):
                 '''Fetch the hotspots which map to the given 3-word animal name. The name must be all lower-case with dashes between the words, e.g. tall-plum-griffin. Because of collisions in the Angry Purple Tiger algorithm, the given name might map to more than one blockchain.'''
 
-                return requests.get(f'https://api.helium.io/v1/hotspots/name/{name}').json()["data"]
+                assert type(name) == str
+
+                try:
+                    return requests.get(f'https://api.helium.io/v1/hotspots/name/{name}').json()["data"]
+
+                    if response.ok:
+                        return response
+
+                    else:
+                        raise ErrorFetchingHotspotData(response)
+
+
+                except ErrorFetchingHotspotData as error:
+                    print(f"Error while loading hotspot data, status code: {error.response.status_code}\n {error.response.json()}")
+                    return response
 
         def search_hotspots_around_point(self, lat, lon, distance):
                 '''Fetch the hotspots which are within a given number of meters from the given lat and lon coordinates.'''
+                assert type(lat) == int or float, "Latitude must be given in int or float format"
+                assert type(lon) == int or float, "Longitude must be given in int or float format"
+                assert type(distance) == int or float, "Disstance must be given in int format and in meters"
 
                 payload = {"lat": lat, "lon": lon, "distance": distance}
-                data =  requests.get(f'https://api.helium.io/v1/hotspots/location/distance', params=payload).json()["data"]
 
-                result = []
-                for hotspot in data:
-                        result.append(hotspot)
-                return result
+                try:
+                    response =  requests.get(f'https://api.helium.io/v1/hotspots/location/distance', params=payload)
+                    if response.ok:
+                        return response
+
+                    else:
+                        raise ErrorFetchingHotspotData(response)
+                except ErrorFetchingHotspotData as error:
+                    print(f"Error while loading hotspot data from name, status code: {error.response.status_code}\n {error.response.json()}")
 
         def get_hotspot_witnesses(self, address):
 
-                '''Retrieves the list of witnesses for a given blockchain over about the last 5 days of blocks.'''
+                """Retrieves the list of witnesses for a given blockchain over about the last 5 days of blocks."""
 
-                return requests.get(f'https://api.helium.io/v1/hotspots/{address}/witnesses').json()['data']
 
+                try:
+                    response = requests.get(f'https://api.helium.io/v1/hotspots/{address}/witnesses')
+
+                    if response.ok:
+                        return response
+
+                    else:
+                        raise ErrorFetchingHotspotData(response)
+
+                except ErrorFetchingHotspotData as error:
+                    print(f"Error while loading hotspot witnesses, status code: {error.response.status_code}\n {error.response.json()}")
 
         def get_hotspot_witnessed(self, address):
 
-                '''Retrieves the list of hotspots the given blockchain witnessed over the last 5 days.'''
+                '''Retrieves the list of witnesses for a given hotspot over about the last 5 days of blocks.'''
 
-                return requests.get(f'https://api.helium.io/v1/hotspots/{address}/witnessed').json()['data']
+                try:
+                    response = requests.get(f'https://api.helium.io/v1/hotspots/{address}/witnessed')
+                    if response.ok:
+                        return response
+                    else:
+                        raise ErrorFetchingHotspotData(response)
 
+                except ErrorFetchingHotspotData as error:
+                    print(f"Error while loading hotspot witnessed, status code: {error.response.status_code}\n {error.response.json()}")
 
         def get_hotspot_activity(self, address):
 
@@ -67,8 +118,3 @@ class Api(object):
         #         url = f'https://api.helium.io/v1/hotspots/{address}/rewards/sum?max_time={max_time}&min_time={min_time}'
         #         print(url)
         #         return requests.get(url).json()
-
-
-
-
-

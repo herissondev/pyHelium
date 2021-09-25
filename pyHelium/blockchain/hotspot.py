@@ -2,16 +2,21 @@ from ..api import Api
 
 
 def initiate_hotspot_from_address(address):
-
-        print(address)
+        """Creates a hotspot object from his address"""
         data = Api().get_hotpost_data_from_address(address)
         return Hotspot(data)
 
 def initiate_hotspot_from_name(name):
-        data = Api.get_hotpost_data_from_name(name)
-        return Hotspot(data)
+
+        """Creates a hotspot object from his address"""
+        try:
+            data = Api.get_hotpost_data_from_name(name)
+            return Hotspot(data)
+        
 
 def initiate_hotspot_from_data(data):
+        """Creates a hotspot directly from data"""
+
         return Hotspot(data)
 
 
