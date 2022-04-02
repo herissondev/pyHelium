@@ -99,22 +99,25 @@ class Api(object):
 
                 return requests.get(f'https://api.helium.io/v1/hotspots/{address}/activity').json()['data']
 
-        def get_hotspot_rewards(self, address, max_time, min_time, cursor=""):
+        def get_hotspot_rewards(self, address, min_time, max_time=False, cursor=""):
 
                 '''Returns rewards for a given blockchain per reward block the blockchain is in,
                 for a given timeframe. Timestamps are given in ISO 8601 format ( YYYY-MM-DD = 2020-02-28 ).
                 The block that contains the max_time timestamp is excluded from the result.'''
-                url = f'https://api.helium.io/v1/hotspots/{address}/rewards/sum?max_time={max_time}&min_time={min_time}&cursor={cursor}'
-
+                if  max_time:
+                    url = f'https://api.helium.io/v1/hotspots/{address}/rewards?max_time={max_time}&min_time={min_time}&cursor={cursor}'
+                else:
+                    url = f'https://api.helium.io/v1/hotspots/{address}/rewards?min_time={min_time}&cursor={cursor}'
                 return requests.get(url).json()
 
 
-        # def get_hotspot_total_rewards(self, address, max_time, min_time):
-        #
-        #         '''Returns the total rewards earned for a given blockchain over a given time range.
-        #         Timestamps are given in ISO 8601 format.
-        #         The block that includes the max_time timestamp is excluded from the result.'''
-        #
-        #         url = f'https://api.helium.io/v1/hotspots/{address}/rewards/sum?max_time={max_time}&min_time={min_time}'
-        #         print(url)
-        #         return requests.get(url).json()
+        def get_hotspot_total_rewards(self, address, min_time, max_time=False):
+
+                '''Returns the total rewards earned for a given blockchain over a given time range.
+                Timestamps are given in ISO 8601 format.
+                The block that includes the max_time timestamp is excluded from the result.'''
+                if max_time:
+                    url = f'https://api.helium.io/v1/hotspots/{address}/rewards/sum?max_time={max_time}&min_time={min_time}'
+                else:
+                    url = f'https://api.helium.io/v1/hotspots/{address}/rewards/sum?min_time={min_time}'
+                return requests.get(url).json()
