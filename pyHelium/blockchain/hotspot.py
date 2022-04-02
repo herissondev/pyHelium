@@ -58,8 +58,20 @@ class Hotspot():
                 self.activity = Api().get_hotspot_activity(self.address)
                 return  self.activity
 
-        def get_rewards(self, max_time, min_time, cursor=""):
-                data = Api().get_hotspot_rewards(self.address, max_time, min_time, cursor)["data"]
+        def get_rewards(self, min_time, max_time=False):
+                data = []
+                cursor = Api().get_hotspot_rewards(self.address, min_time, max_time)["cursor"]
+                while cursor:
+                    r = Api().get_hotspot_rewards(self.address, min_time, max_time, cursor)
+                    data += r["data"]
+                    if "cursor" in r:
+                        cursor = r["cursor"]
+                    else:
+                        cursor = False
                 self.rewards = data
-                #self.rewards_cursor = data["cursor"]
                 return self.rewards
+
+        def get_total_rewards(self, min_time, max_time=False):
+                data = Api().get_hotspot_total_rewards(self.address, min_time, max_time)["data"]
+                self.total_rewards = data
+                return self.total_rewards
